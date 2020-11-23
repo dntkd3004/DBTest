@@ -9,7 +9,7 @@ public class ArticleDao {
 
 	// 드라이버 정보
 	String driver = "com.mysql.cj.jdbc.Driver";
-	// dbms 주소
+	// DBMS 주소
 	String url = "jdbc:mysql://localhost:3306/t1?serverTimezone=UTC";
 
 	// 사용자 계정
@@ -32,7 +32,7 @@ public class ArticleDao {
 			conn = DriverManager.getConnection(url, user, pass);
 			
 			String sql = "SELECT * FROM article";
-			pstmt = conn.prepareStatement(sql); // PreparedStatment 통해서 sql 세팅
+			pstmt = conn.prepareStatement(sql); // PreparedStatment 통해서 SQL 세팅
 
 			rs = pstmt.executeQuery(); // 조회 결과가 있는 경우
 			// pstmt.executeUpdate(); // 조회 결과가 없는 경우
