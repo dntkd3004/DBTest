@@ -70,6 +70,13 @@ public class BoardDB {
 					System.out.println("없는 게시물입니다.");
 				}
 			}
+			else if(cmd.equals("test")) {
+				
+				ArrayList<Article> articles = articleDao.getArticlesByTitle("bbb");
+				for(int i = 0; i < articles.size(); i++) {
+					System.out.println("제목 : " + articles.get(i).getTitle());
+				}
+			}
 		}
 	}
 }
