@@ -144,11 +144,12 @@ FROM emp
 GROUP BY deptno;
 
 #부서별 전체 사원수와 커미션을 받는 사원들의 수를 구하는 쿼리
-SELECT COUNT(*) cnt
+SELECT COUNT(*) cnt, COUNT(comm) comm
 FROM emp;
 
 #부서별 최대 급여와 최소 급여를 구하는 쿼리
-
+SELECT MAX(sal), MIN(sal)
+FROM emp;
 
 #부서별로 급여 평균 (단, 부서별 급여 평균이 2000 이상만)
 
