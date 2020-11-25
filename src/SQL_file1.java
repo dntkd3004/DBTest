@@ -231,3 +231,56 @@ SELECT * FROM t_user WHERE id = 1;
 SELECT id FROM t_user WHERE userName = '소지섭';
 SELECT productNo FROM t_order WHERE userNo = 5;
 SELECT SUM(price) price FROM t_product WHERE id IN (5, 8);
+
+# 1. 손흥민의 주문 개수는? 3개
+SELECT COUNT(*) cnt
+FROM t_order o
+INNER JOIN t_user u
+ON o.userNo = u.id
+WHERE u.userName = '손흥민';
+# 2. 손흥민이 산 상품은? 운동화 2개, 코트 1개
+SELECT p.pname, COUNT(*) cnt
+FROM ((t_order o
+INNER JOIN t_product p
+ON o.productNo = p.id)
+INNER JOIN t_user u
+ON o.userNo = u.id)
+WHERE u.userName = '손흥민'
+GROUP BY p.pname;
+# distinct, group by
+# 3. 스커트를 산 사람은? 송혜교
+SELECT u.userName, COUNT(*) cnt
+FROM ((t_order o 
+INNER JOIN t_user u
+ON o.userNo = u.id)
+INNER JOIN t_product p
+ON o.productNo = p.id)
+WHERE p.pname = '스커트'
+GROUP BY u.userName;
+# 4. 가장 많이 주문한 사람의 아이디와 이름, 주문개수는? user1, 손흥민, 3개
+SELECT u.userId, u.userName, COUNT(*) cnt
+FROM ((t_order o
+INNER JOIN t_user u
+ON o.userNo = u.id)
+INNER JOIN t_product p
+ON o.productNo = p.id)
+GROUP BY u.userName
+ORDER BY cnt DESC
+LIMIT 1;
+# 5. 소지섭이 사용한 총 금액은? 130,000원
+SELECT SUM(p.price)
+FROM ((t_order o
+INNER JOIN t_user u
+ON o.userNo = u.id)
+INNER JOIN t_product p
+ON o.productNo = p.id)
+WHERE u.userName = '소지섭';
+
+SELECT u.userName, SUM(p.price)
+FROM ((t_order o
+INNER JOIN t_user u
+ON o.userNo = u.id)
+INNER JOIN t_product p
+ON o.productNo = p.id)
+GROUP BY u.userName
+HAVING u.userName = '소지섭';
