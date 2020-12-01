@@ -28,4 +28,14 @@ public class ArticleDao {
 		String sql = "select * from article where id = ?";
 		return db.getRow(sql, aid);
 	}
+	
+	public int insertReply(int aid, String body) {
+		String sql = "insert into reply set aid = ?, body = ?, writer = '익명', regDate = NOW()";
+		return db.updateQuery(sql, aid, body);
+	}
+	
+	public Member insertMember(String LoginId, String LoginPw, String nickname) {
+		String sql = "insert into member set loginId = ?, loginPw = ?, nickname = ?, regDate = NOW()";
+		return db.insertMember(LoginId, LoginPw, nickname);
+	}
 }

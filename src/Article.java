@@ -1,14 +1,15 @@
 
 public class Article {
+
 	private int id;
 	private String title;
 	private String nickname;
 	private String body;
 	private String regDate;
 	private int hit;
-	
+
 	public Article() {
-		
+
 	}
 	
 	public Article(int id, String title, String nickname, String body, String regDate, int hit) {

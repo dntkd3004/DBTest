@@ -8,13 +8,13 @@ import java.util.ArrayList;
 public class DBUtil {
 	// 드라이버 정보
 	String driver = "com.mysql.cj.jdbc.Driver";
-	// dbms 주소p
+	// DBMS 주소
 	String url = "jdbc:mysql://localhost:3306/t1?serverTimezone=UTC";
 
 	// 사용자 계정
-	String user = "root";
+	String user = "sbsst";
 	// 사용자 비밀번호
-	String pass = "";
+	String pass = "sbs123414";
 
 	Connection conn = null;
 	
@@ -33,11 +33,12 @@ public class DBUtil {
 
 		return pstmt;
 	}
-
+	
 	public ArrayList<Article> getRows(String sql, Object...params) {
 		if(params.length != 0 && params[0] instanceof Object[]) {
 			params = (Object[])params[0];
 		}
+		
 		ArrayList<Article> articles = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -72,8 +73,15 @@ public class DBUtil {
 	}
 
 	public Article getRow(String sql, Object...params) {
-		return getRows(sql, params).get(0);
+		Article article = null;
+		
+		if(getRows(sql, params).size() != 0) {			
+			article = getRows(sql, params).get(0);
+		}
+		
+		return article;
 	}
+	
 	public int updateQuery(String sql, Object... params) {
 		if(params.length != 0 && params[0] instanceof Object[]) {
 			params = (Object[])params[0];
@@ -92,9 +100,43 @@ public class DBUtil {
 		} finally {
 			close(pstmt, conn);
 		}
-		System.out.println(rst);
 		return rst;
 	}
+	
+	public Member insertMember(String loginId, String loginPw, String nickname) {
+		
+		return null;
+	}
+//	public Member insertMember(Member m) {
+//		m.setId(no);
+//		no++;
+//		m.setRegDate(Util.getCurrentDate());
+//
+//		members.add(m);
+//	}	
+//	public Member getMemberById(int id) {
+//		for(int i = 0; i < members.size(); i++) {
+//			Member m = members.get(i);
+//			if(m.getId() == id) {
+//				return m;
+//			}
+//		}
+//
+//		return null;
+//	}
+//
+//	public Member getMemberBygetMemberByLoginIdAndLoginPw(String id, String pw) {
+//		
+//		for(int i = 0 ; i < members.size(); i++) {
+//			Member m = members.get(i);
+//			if(m.getLoginId().equals(id) && m.getLoginPw().equals(pw)) {
+//				return m;
+//			}
+//		}
+//		
+//		return null;
+//		
+//	}
 
 	public Connection getConnection() {
 		Connection conn = null;
@@ -138,5 +180,5 @@ public class DBUtil {
 		}
 		
 	}
-
+	
 }

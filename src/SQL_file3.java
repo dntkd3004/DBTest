@@ -249,66 +249,174 @@ SELECT e1.ename, e2.ename
 FROM emp e1
 INNER JOIN emp e2
 ON e1.mgr = e2.empno;
-#29. 이름,부서명을 조회하시오.단, 사원테이블에 부서번호가 40에 속한 사원이 없지만 부서번호 40인 부서명도 출력되도록 하시오. (hint : outer join)
+#이름,직속상사이름을 조회하시오.
+SELECT E.ENAME,M.ENAME
+FROM EMP E LEFT JOIN EMP M ON E.MGR = M.EMPNO;
+
+#이름,부서명을 조회하시오.단, 사원테이블에 부서번호가 40에 속한 사원이 없지만 부서번호 40인 부서명도 출력되도록 하시오.
 SELECT E.ENAME,D.DNAME
 FROM DEPT D LEFT JOIN EMP E ON D.DEPTNO = E.DEPTNO;
 
-#30. 부서번호가 30번인 사원들의 이름, 직급, 부서번호, 부서위치를 조회하시오. (hint : outer join)
-SELECT e.ename, e.job, e.deptno, d.loc
-FROM emp e
-INNER JOIN dept d
-ON e.deptno = d.deptno
-WHERE e.deptno = 30;
+#부서번호가 30번인 사원들의 이름, 직급, 부서번호, 부서위치를 조회하시오.
+SELECT ENAME,JOB,E.DEPTNO,LOC
+FROM EMP E,DEPT D
+WHERE E.DEPTNO = D.DEPTNO AND D.DEPTNO = 30;
+SELECT ENAME,JOB,E.DEPTNO,LOC
+FROM EMP E INNER JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE D.DEPTNO = 30;
 
-#31. DALLAS에서 근무하는 사원의 이름,직급,부서번호,부서명을 조회하시오.
-SELECT e.ename, e.job, e.deptno, d.loc
-FROM emp e
-INNER JOIN dept d
-ON e.deptno = d.deptno
-WHERE d.loc = 'DALLAS';
+#커미션을 받는 사원의 이름, 커미션, 부서이름,부서위치를 조회하시오.
+SELECT ENAME,COMM,DNAME,LOC
+FROM EMP,DEPT
+WHERE EMP.DEPTNO = DEPT.DEPTNO 
+AND EMP.COMM IS NOT NULL AND EMP.COMM <> 0;
 
-#32. 이름에 A 가 들어가는 사원의 이름,부서명을 조회하시오.
-SELECT e.ename, d.dname
-FROM emp e
-INNER JOIN dept d
-ON e.deptno = d.deptno
-WHERE e.ename LIKE '%A%';
+SELECT ENAME,COMM,DNAME,LOC
+FROM EMP,DEPT
+WHERE EMP.DEPTNO = DEPT.DEPTNO 
+AND EMP.COMM IS NOT NULL AND EMP.COMM != 0;
 
-#33. 이름, 직급, 월급여, 월급여등급을 조회하시오.
-SELECT e.ename, e.job, e.sal, s.grade
-FROM emp e
-INNER JOIN salgrade s
-ON e.sal BETWEEN s.losal AND s.hisal;
+SELECT ENAME,COMM,DNAME,LOC
+FROM EMP,DEPT
+WHERE EMP.DEPTNO = DEPT.DEPTNO 
+AND EMP.COMM IS NOT NULL AND EMP.COMM NOT IN(0);
 
-#34. ALLEN과 같은 부서에 근무하는 사원의 이름, 부서번호를 조회하시오.
-SELECT a.ename, a.deptno
-FROM emp e
-INNER JOIN emp a 
-ON e.deptno = a.deptno
-WHERE e.empno <> a.empno
-AND e.ename = 'ALLEN'
-ORDER BY a.ename;
+SELECT ENAME,COMM,DNAME,LOC
+FROM EMP INNER JOIN DEPT ON EMP.DEPTNO = DEPT.DEPTNO
+WHERE EMP.COMM IS NOT NULL AND EMP.COMM <> 0;
+
+#DALLAS에서 근무하는 사원의 이름,직급,부서번호,부서명을 조회하시오.
+SELECT E.ENAME,E.JOB,D.DEPTNO,D.DNAME
+FROM EMP E,DEPT D
+WHERE E.DEPTNO = D.DEPTNO
+AND D.LOC = 'DALLAS';
+
+SELECT E.ENAME,E.JOB,D.DEPTNO,D.DNAME
+FROM EMP E INNER JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE D.LOC = 'DALLAS';
+
+#이름에 A 가 들어가는 사원의 이름,부서명을 조회하시오.
+SELECT E.ENAME,D.DNAME
+FROM EMP E,DEPT D
+WHERE E.DEPTNO = D.DEPTNO
+AND E.ENAME LIKE '%A%';
+
+SELECT E.ENAME,D.DNAME
+FROM EMP E INNER JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE E.ENAME LIKE '%A%';
+
+#이름, 직급, 월급여, 월급여등급을 조회하시오.
+SELECT E.ENAME,E.JOB,E.SAL,S.GRADE
+FROM EMP E,SALGRADE S
+WHERE E.SAL BETWEEN S.LOSAL AND S.HISAL;
+
+#ALLEN과 같은 부서에 근무하는 사원의 이름, 부서번호를 조회하시오.
+SELECT C.ENAME,C.DEPTNO
+FROM EMP E,EMP C
+WHERE E.EMPNO <> C.EMPNO
+AND E.DEPTNO = C.DEPTNO
+AND E.ENAME = 'ALLEN'
+ORDER BY C.ENAME;
+
+SELECT C.ENAME,C.DEPTNO
+FROM EMP E INNER JOIN EMP C ON E.DEPTNO = C.DEPTNO 
+WHERE E.EMPNO <> C.EMPNO
+AND E.ENAME = 'ALLEN'
+ORDER BY C.ENAME;
 
 #서브 쿼리는 SELECT 문 안에서 ()로 둘러싸인 SELECT 문을 말하며 쿼리문의 결과를 메인 쿼리로 전달하기 위해 사용된다.
 #사원명 'JONES'가 속한 부서명을 조회하시오.
 #부서번호를 알아내기 위한 쿼리가 서브 쿼리로 사용되고, 이 서브쿼리는 단 하나의 결과값을 얻기 때문에 단일 행 서브 쿼리라 한다.
 
-#35. 10번 부서에서 근무하는 사원의 이름과 10번 부서의 부서명을 조회하시오. (hint : sub query)
-SELECT e.ename, d.dname
-FROM emp e,(
-SELECT deptno, dname
-FROM dept
-WHERE deptno = 10
-) d
+#10번 부서에서 근무하는 사원의 이름과 10번 부서의 부서명을 조회하시오.
+SELECT E.ENAME,D.DNAME
+FROM EMP E,DEPT D
+WHERE E.DEPTNO = D.DEPTNO
+AND D.DEPTNO = 10;
+
+SELECT E.ENAME,D.DNAME
+FROM EMP E,
+(
+    SELECT DEPTNO,DNAME
+    FROM DEPT
+    WHERE DEPTNO = 10
+) D
 WHERE E.DEPTNO = D.DEPTNO;
 
-#36. 평균 월급여보다 더 많은 월급여를 받은 사원의 사원번호,이름,월급여 조회하시오. (hint : sub query)
-SELECT empno, ename, sal
-FROM emp e
-WHERE e.sal > (SELECT AVG(sal)FROM emp);
+#평균 월급여보다 더 많은 월급여를 받은 사원의 사원번호,이름,월급여 조회하시오.
+SELECT EMPNO,ENAME,SAL
+FROM EMP
+WHERE SAL > (SELECT AVG(SAL)
+ 	     FROM EMP)
+ORDER BY SAL DESC;
 
-#37. 부서번호가 10인 사원중에서 최대급여를 받는 사원과 동일한 급여를 받는 사원의 사원번호, 이름을 조회하시오. (hint : sub query)
-SELECT empno, ename, sal
-FROM emp e
-WHERE e.deptno = 10
-AND e.sal = (SELECT MAX(sal) FROM emp);
+#부서번호가 10인 사원중에서 최대급여를 받는 사원과 동일한 급여를 받는 사원의 사원번호, 이름을 조회하시오.
+SELECT EMPNO,ENAME,SAL
+FROM EMP
+WHERE SAL = (SELECT MAX(SAL)
+ 	     FROM EMP)
+ORDER BY SAL DESC;
+
+# --EMP 테이블에 새로운 사원 정보 추가(홍길동)
+INSERT INTO EMP
+SET EMPNO = 1562,
+ENAME = '홍길동',
+JOB = 'SALSEMAN',
+MGR = 7698,
+HIREDATE = NOW(),
+SAL = 2000,
+COMM = 1000,
+DEPTNO = 30;
+
+#테이블명 다음에 나오는 컬럼 리스트가 구조에 맞게 순서대로 모두 선택되야 하는 경우는 생략 가능하다.
+#NUMBER 형의 컬럼 값에는 ''를 생략할 수 있다.
+
+#--EMP 테이블에 새로운 사원 정보 추가(임꺽정)
+#사원번호는 기본키로 설정되어 있다.
+INSERT INTO EMP
+SET EMPNO = 1500, 
+ENAME = '임꺽정',
+JOB = 'SALSEMAN',
+MGR = 7698,
+HIREDATE = NOW(),
+SAL = 1800,
+COMM = 1200,
+DEPTNO = 30;
+
+INSERT INTO EMP
+SET ENAME = '장길산',
+JOB = 'MANAGER',
+MGR = 7839,
+HIREDATE = NOW(),
+SAL = 3000,
+DEPTNO = 30;
+#따라서 사원번호가 같은 사원은 테이블에 존재할 수 없다.
+#--EMP 테이블에 새로운 사원 정보 추가(장길산)
+INSERT INTO EMP
+SET EMPNO = 1692,
+ENAME = '장길산',
+JOB = 'MANAGER',
+MGR = 7839,
+HIREDATE = NOW(),
+SAL = 3000,
+DEPTNO = 30;
+
+
+#컬럼리스트에 COMM 이 빠졌고 SET 에도 해당 컬럼에 대한 값이 없다.
+#이러면 COMM 컬럼값은 NULL이 된다.
+#위 인서튼 문은 컬럼에 NULL을 입력하는 방법 중 하나를 보여준다.
+ 
+
+# 사원테이블에서 임꺽정의 월급여를 2800 으로 변경
+UPDATE EMP 
+SET SAL=2800
+WHERE ENAME='임꺽정';
+
+# 사원테이블에서 홍길동의 월급여를 300 만큼 인상하고 COMM은 500으로 변경
+UPDATE EMP 
+SET SAL=SAL + 300,COMM=500
+WHERE ENAME='홍길동';
+
+#사원테이블에서 홍길동,임꺽정,장길산을 삭제
+DELETE FROM EMP 
+WHERE ENAME IN ('홍길동','임꺽정','장길산');
