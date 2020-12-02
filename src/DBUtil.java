@@ -34,6 +34,44 @@ public class DBUtil {
 		return pstmt;
 	}
 	
+	public ArrayList<Reply> getReplyRows(String sql, Object...params) {
+		if(params.length != 0 && params[0] instanceof Object[]) {
+			params = (Object[])params[0];
+		}
+		
+		ArrayList<Reply> replies = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = getPrepareStatement(sql, params);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				int aid = rs.getInt("aid");
+				int id = rs.getInt("id");
+				String body = rs.getString("body");
+				String writer = rs.getString("writer");
+				String regDate = rs.getString("regDate");
+
+				Reply reply= new Reply();
+				reply.setParentId(aid);
+				reply.setBody(body);
+				reply.setWriter(writer);
+				reply.setId(id);
+				reply.setRegDate(regDate);
+
+				replies.add(reply);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, conn);
+		}
+
+		return replies;
+	}
+	
 	public ArrayList<Article> getRows(String sql, Object...params) {
 		if(params.length != 0 && params[0] instanceof Object[]) {
 			params = (Object[])params[0];
@@ -102,41 +140,6 @@ public class DBUtil {
 		}
 		return rst;
 	}
-	
-	public Member insertMember(String loginId, String loginPw, String nickname) {
-		
-		return null;
-	}
-//	public Member insertMember(Member m) {
-//		m.setId(no);
-//		no++;
-//		m.setRegDate(Util.getCurrentDate());
-//
-//		members.add(m);
-//	}	
-//	public Member getMemberById(int id) {
-//		for(int i = 0; i < members.size(); i++) {
-//			Member m = members.get(i);
-//			if(m.getId() == id) {
-//				return m;
-//			}
-//		}
-//
-//		return null;
-//	}
-//
-//	public Member getMemberBygetMemberByLoginIdAndLoginPw(String id, String pw) {
-//		
-//		for(int i = 0 ; i < members.size(); i++) {
-//			Member m = members.get(i);
-//			if(m.getLoginId().equals(id) && m.getLoginPw().equals(pw)) {
-//				return m;
-//			}
-//		}
-//		
-//		return null;
-//		
-//	}
 
 	public Connection getConnection() {
 		Connection conn = null;
@@ -180,5 +183,5 @@ public class DBUtil {
 		}
 		
 	}
-	
+
 }

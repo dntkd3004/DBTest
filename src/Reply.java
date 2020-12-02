@@ -7,6 +7,10 @@ public class Reply {
 	String writer;
 	String regDate;
 	
+	public Reply() {
+		
+	}
+	
 	public Reply(int id, int parentId, String body, String writer, String regDate) {
 		super();
 		this.id = id;

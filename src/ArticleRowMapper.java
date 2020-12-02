@@ -1,13 +1,11 @@
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class ArticleRowMapper  implements RowMapper<Article> {
+public class ArticleRowMapper implements RowMapper<Article> {
 
+	@Override
 	public Article getRow(ResultSet rs) throws SQLException {
-		
-		Article article = new Article();
-		
-		article.setId(rs.getInt("id"));
-		
+	
 		String title = rs.getString("title");
 		int id = rs.getInt("id");
 		String body = rs.getString("body");
@@ -20,7 +18,9 @@ public class ArticleRowMapper  implements RowMapper<Article> {
 		article.setNickname(nickname);
 		article.setId(id);
 		article.setHit(hit);
-
-		articles.add(article);
+		
+		
+		return article;
 	}
+	
 }

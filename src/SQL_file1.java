@@ -61,3 +61,17 @@ hit = 100;
 
 SELECT *
 FROM article;
+
+CREATE TABLE reply(
+id INT(5) PRIMARY KEY AUTO_INCREMENT,
+aid INT(5) NOT NULL,
+`body` CHAR(25) NOT NULL,
+writer CHAR(50) NOT NULL,
+regDate DATETIME
+);
+
+SELECT *
+FROM reply;
+
+CREATE TABLE `member` (
+id INT(5) PRIMARY KEY AUTO_INCREMENT,

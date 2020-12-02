@@ -57,12 +57,4 @@ public class Member {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-
-	public static void insertMember(Member m) {
-		m.setId(no);
-		no++;
-		m.setRegDate(Util.getCurrentDate());
-
-		members.add(m);
-	}
 }
