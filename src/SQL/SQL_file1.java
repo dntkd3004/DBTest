@@ -73,5 +73,37 @@ regDate DATETIME
 SELECT *
 FROM reply;
 
+ALTER TABLE article ADD regDate DATETIME NOT NULL AFTER hit;
+
 CREATE TABLE `member` (
 id INT(5) PRIMARY KEY AUTO_INCREMENT,
+loginId CHAR(30) UNIQUE NOT NULL,
+loginPw CHAR(50) NOT NULL,
+nickname CHAR(50) NOT NULL,
+regDate DATETIME
+);
+
+DESC `member`;
+
+ALTER TABLE `member` MODIFY regDate DATETIME NOT NULL;
+
+SELECT *
+FROM `member`;
+
+SELECT *
+FROM `member` WHERE loginId = 'aaa' AND loginPw = 'bbb';
+
+ALTER TABLE article DROP nickname;
+
+SELECT * FROM (
+SELECT a.*, m.nickname FROM article a INNER JOIN `member` m ON a.mid = m.id) aa;
+
+SELECT *
+FROM article;
+
+ALTER TABLE article ADD `mid` INT(5) NOT NULL AFTER `body`;
+
+SELECT *
+FROM `member`;
+
+UPDATE article SET `mid` = 1;

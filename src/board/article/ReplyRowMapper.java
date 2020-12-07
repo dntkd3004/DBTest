@@ -1,5 +1,8 @@
+package board.article;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import board.RowMapper;
 
 public class ReplyRowMapper implements RowMapper<Reply> {
 

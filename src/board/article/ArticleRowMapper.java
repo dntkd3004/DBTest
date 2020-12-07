@@ -1,5 +1,8 @@
+package board.article;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import board.RowMapper;
 
 public class ArticleRowMapper implements RowMapper<Article> {
 
@@ -11,6 +14,7 @@ public class ArticleRowMapper implements RowMapper<Article> {
 		String body = rs.getString("body");
 		String nickname = rs.getString("nickname");
 		int hit = rs.getInt("hit");
+		String regDate = rs.getString("regDate");
 
 		Article article = new Article();
 		article.setTitle(title);
@@ -18,7 +22,7 @@ public class ArticleRowMapper implements RowMapper<Article> {
 		article.setNickname(nickname);
 		article.setId(id);
 		article.setHit(hit);
-		
+		article.setRegDate(regDate);
 		
 		return article;
 	}

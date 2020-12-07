@@ -1,3 +1,4 @@
+package board.article;
 
 public class Reply {
 

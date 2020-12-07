@@ -1,3 +1,4 @@
+package SQL;
 DROP DATABASE IF EXISTS scott;
 
 CREATE DATABASE scott;

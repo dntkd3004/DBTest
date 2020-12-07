@@ -1,11 +1,14 @@
+package board.article;
 import java.util.ArrayList;
+
+import board.DBUtil;
 
 public class ArticleDao {
 
-	private DBUtil2 db = new DBUtil2();
+	private DBUtil db = new DBUtil();
 	
 	public ArrayList<Article> getArticles() {
-		String sql = "select * from article";
+		String sql = "SELECT a.*, m.nickname nickname FROM article a INNER JOIN `member` m ON a.mid = m.id";
 		return db.getRows(sql, new ArticleRowMapper());
 	}
 	
@@ -39,12 +42,5 @@ public class ArticleDao {
 		return db.getRows(sql, new ReplyRowMapper(), id);
 	}
 	
-	public int insertMember(Member m) {
-		String sql = "insert into member set loginId = ?, loginPw = ?, nickname = ?, regDate = NOW()";
-		return db.updateQuery(sql, m);
-	}
-	public ArrayList<Member> getMemberBygetMemberByLoginIdAndLoginPw(String id, String pw) {
-		String sql = "select * from member where loginId = ?, loginPw = ?";
-		return db.getRows(sql, new MemberRowMapper(), id, pw);
-	}
+
 }

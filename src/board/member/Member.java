@@ -1,3 +1,4 @@
+package board.member;
 
 public class Member {
 	private int id;
